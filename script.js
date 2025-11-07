@@ -1,5 +1,18 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
+    // 0️⃣ Profile check & hero greeting
+    const profileName = localStorage.getItem('profileName');
+    const heroHeading = document.getElementById('hero-heading');
+
+    if (!profileName) {
+        // Redirect to profile page if no profile exists
+        if (!window.location.href.includes('profile.html')) {
+            window.location.href = 'profile.html';
+        }
+    } else if (heroHeading) {
+        heroHeading.textContent = `Welcome, ${profileName}`;
+    }
+
     // 1️⃣ Initialize Bootstrap tooltips
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -88,5 +101,11 @@ function filterMedia() {
         const match = title.includes(query) && (type === "all" || cardType === type);
         card.style.display = match ? "block" : "none";
     });
+}
+
+// Optional: Clear profile (for switching users)
+function clearProfile() {
+    localStorage.removeItem('profileName');
+    window.location.href = 'profile.html';
 }
 
