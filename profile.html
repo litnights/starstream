@@ -1,27 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StarStream - Choose Profile</title>
-  <link href="style.css" rel="stylesheet">
+  <title>StarStream - Select Profile</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgba(55, 48, 163, 0.1) 0%, rgba(55, 48, 163, 0) 20%),
+                  radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.1) 0%, rgba(124, 58, 237, 0) 20%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    /* Floating card */
+    .profile-card {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      max-width: 360px;
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      animation: float 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Input styling */
+    #profileNameInput {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.75rem;
+      border: none;
+      background: rgba(31, 41, 55, 0.9);
+      color: #e5e7eb;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    #profileNameInput::placeholder {
+      color: #9ca3af;
+    }
+
+    /* Button styling */
+    #saveProfileBtn {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      color: white;
+      font-weight: 600;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    #saveProfileBtn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #7c3aed, #4f46e5);
+    }
+  </style>
 </head>
-<body class="bg-gray-950 text-gray-100 flex flex-col items-center justify-center min-h-screen px-4">
 
-  <div class="text-center mb-10">
-    <h1 class="text-4xl sm:text-5xl font-bold text-indigo-400 mb-4">Welcome to StarStream</h1>
-    <p class="text-gray-300 mb-6">Enter your profile name to start your cosmic journey</p>
+<body>
+  <div class="profile-card">
+    <h1 class="text-2xl font-bold text-indigo-400 mb-4">Welcome to StarStream</h1>
+    <p class="text-gray-300 mb-6 text-sm">Enter your profile name to start your cosmic journey:</p>
+
+    <input id="profileNameInput" type="text" placeholder="Your name..." />
+
+    <button id="saveProfileBtn">Start Streaming</button>
   </div>
 
-  <div class="w-full max-w-sm">
-    <input id="profileNameInput" type="text" placeholder="Your name..."
-           class="w-full px-4 py-3 mb-4 rounded-lg bg-gray-800 text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-    <button id="saveProfileBtn"
-            class="w-full bg-indigo-600 hover:bg-indigo-700 py-3 rounded-lg font-semibold text-white transition">
-      Start Streaming
-    </button>
-  </div>
+  <script>
+    document.getElementById('saveProfileBtn').addEventListener('click', () => {
+      const name = document.getElementById('profileNameInput').value.trim();
+      if (!name) {
+        alert("Please enter a name!");
+        return;
+      }
+      localStorage.setItem('starstreamActiveProfile', name);
+      window.location.href = 'index.html';
+    });
 
-  <script src="script.js"></script>
+    // Press Enter to submit
+    document.getElementById('profileNameInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        document.getElementById('saveProfileBtn').click();
+      }
+    });
+  </script>
 </body>
 </html>
