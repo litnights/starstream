@@ -2,35 +2,16 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StarStream - Cosmic Media Hub</title>
-
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Feather Icons -->
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-
-  <!-- Meta & SEO -->
-  <meta name="description" content="Explore cosmic movies and sci-fi series. Stream, discover, and journey through the universe of entertainment." />
-  <meta property="og:title" content="StarStream - Cosmic Media Hub" />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1451187580459-43490279c0fa" />
-  <meta name="theme-color" content="#1f2937" />
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-
-  <!-- Components -->
-  <script src="components/navbar.js" defer></script>
-  <script src="components/media-card.js" defer></script>
-  <script src="components/footer.js" defer></script>
-
   <style>
-    body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; background: #111827; color: #f9fafb; transition: opacity 0.7s; }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #6366f1, #8b5cf6); border-radius: 4px; }
 
-    /* Subtle "Starman" glow effect */
     .starman-glow {
       color: #9ca3af;
       animation: twinkle 4s infinite ease-in-out;
@@ -39,33 +20,24 @@
       0%, 100% { opacity: 0.7; text-shadow: 0 0 2px #818cf8; }
       50% { opacity: 1; text-shadow: 0 0 8px #a78bfa; }
     }
+
+    #heroHeading span { display: inline-block; }
   </style>
-
-  <!-- Redirect if username not set -->
-  <script>
-    const user = localStorage.getItem('starstreamUser');
-    if (!user) {
-      window.location.href = 'profile.html';
-    }
-  </script>
 </head>
-
-<body class="bg-gray-950 text-gray-100 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
 
   <!-- Navbar -->
   <custom-navbar></custom-navbar>
 
   <!-- Hero Section -->
-  <section class="relative flex items-center justify-center min-h-[70vh] sm:min-h-[85vh] overflow-hidden text-center">
+  <section class="relative flex items-center justify-center min-h-[70vh] sm:min-h-[85vh] overflow-hidden text-center px-4">
     <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80"
          alt="Galaxy background"
          class="absolute inset-0 w-full h-full object-cover opacity-30" />
     <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-950/80 to-gray-950"></div>
 
-    <div class="relative px-4 sm:px-6 max-w-3xl z-10">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 sm:mb-6 text-white break-words">
-        Explore the <span class="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">Cosmos</span> of Entertainment
-      </h1>
+    <div class="relative max-w-3xl z-10">
+      <h1 id="heroHeading" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 sm:mb-6 break-words"></h1>
       <p class="text-base sm:text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 sm:mb-10">
         Stream, discover, and journey through the universe of movies and shows.
       </p>
@@ -82,22 +54,22 @@
       </div>
 
       
-  <!-- Search & Filter -->
-<section id="search" class="relative z-10 mt-8 mb-10 px-4 sm:px-6 max-w-5xl mx-auto w-full">
-  <div class="bg-gray-900/80 border border-gray-700 backdrop-blur-lg rounded-2xl p-4 sm:p-6 shadow-xl">
-    <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-      <input id="searchInput" type="text" placeholder="Search for a movie or show..."
-             class="flex-1 bg-gray-800 text-gray-200 px-4 sm:px-5 py-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
-      <select id="filterType"
-              class="bg-gray-800 text-gray-300 px-3 sm:px-4 py-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-indigo-500">
-        <option value="all">All</option>
-        <option value="movie">Movies</option>
-        <option value="tv">TV Shows</option>
-      </select>
-    </div>
-  </div>
-</section>
 
+  <!-- Search & Filter -->
+  <section id="search" class="relative z-20 -mt-8 sm:-mt-12 mb-10 sm:mb-12 px-4 sm:px-6 max-w-5xl mx-auto w-full">
+    <div class="bg-gray-900/80 border border-gray-700 backdrop-blur-lg rounded-2xl p-4 sm:p-6 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+        <input id="searchInput" type="text" placeholder="Search for a movie or show..."
+               class="flex-1 bg-gray-800 text-gray-200 px-4 sm:px-5 py-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+        <select id="filterType"
+                class="bg-gray-800 text-gray-300 px-3 sm:px-4 py-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-indigo-500">
+          <option value="all">All</option>
+          <option value="movie">Movies</option>
+          <option value="tv">TV Shows</option>
+        </select>
+      </div>
+    </div>
+  </section>
 
   <!-- Main Content -->
   <main class="container mx-auto px-4 sm:px-6 flex-1">
@@ -138,18 +110,23 @@
     </section>
   </main>
 
-  <!-- Footer -->
   <custom-footer></custom-footer>
 
   <div class="text-center text-xs text-gray-500 py-4 border-t border-gray-800">
-    Created for <span class="starman-glow">Starman</span>.
+   Created for <span class="starman-glow">Starman</span> © 2025.
   </div>
 
   <!-- Scripts -->
   <script>
     feather.replace();
 
-    // Example media data (so you can see content even without NAS)
+    // Welcome user
+    document.addEventListener('DOMContentLoaded', () => {
+      const activeProfile = localStorage.getItem('starstreamActiveProfile') || 'Traveler';
+      document.getElementById('heroHeading').innerHTML = `Welcome, <span class="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">${activeProfile}</span>!`;
+    });
+
+    // Media Data
     const mediaData = [
       { title: "Interstellar", type: "movie", year: "2014", image: "https://static.photos/space/320x240/1" },
       { title: "The Expanse", type: "tv", year: "2015", image: "https://static.photos/space/320x240/2" },
@@ -177,8 +154,8 @@
         card.setAttribute("year", item.year);
         card.setAttribute("image", item.image);
         grids.recent.appendChild(card);
-        if (item.type === "movie") grids.movies.appendChild(card.cloneNode(true));
-        if (item.type === "tv") grids.tv.appendChild(card.cloneNode(true));
+        if(item.type === "movie") grids.movies.appendChild(card.cloneNode(true));
+        if(item.type === "tv") grids.tv.appendChild(card.cloneNode(true));
       });
     }
 
