@@ -3,43 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StarStream - Choose Profile</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Poppins', sans-serif; background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    .container { background-color: #1e293b; padding: 2rem; border-radius: 1rem; text-align: center; width: 90%; max-width: 400px; }
-    input { width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem; border: none; margin-bottom: 1rem; font-size: 1rem; }
-    button { padding: 0.75rem 1rem; border-radius: 0.5rem; background-color: #6366f1; color: white; font-weight: 600; width: 100%; transition: 0.2s; }
-    button:hover { background-color: #4f46e5; }
-  </style>
+  <title>StarStream - Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-gray-950 text-gray-100 flex items-center justify-center min-h-screen">
 
-  <div class="container">
-    <h1 class="text-2xl font-bold mb-4">Welcome to StarStream</h1>
-    <p class="mb-4">Enter your profile name to continue:</p>
-    <input type="text" id="profileName" placeholder="Profile Name">
-    <button id="saveProfile">Continue</button>
+  <div class="bg-gray-900/80 p-8 rounded-2xl shadow-xl text-center max-w-md w-full">
+    <h1 class="text-3xl font-bold text-indigo-400 mb-6">Enter Your Profile</h1>
+    <input id="profileNameInput" type="text" placeholder="Enter your name"
+           class="w-full px-4 py-3 rounded-lg mb-4 bg-gray-800 text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    <button id="saveProfileBtn"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 px-4 py-3 rounded-lg font-semibold text-white transition">Continue</button>
   </div>
 
   <script>
-    const saveBtn = document.getElementById('saveProfile');
-    const nameInput = document.getElementById('profileName');
+    const saveBtn = document.getElementById('saveProfileBtn');
+    const profileInput = document.getElementById('profileNameInput');
 
     saveBtn.addEventListener('click', () => {
-      const name = nameInput.value.trim();
-      if (name) {
+      const name = profileInput.value.trim();
+      if(name) {
         localStorage.setItem('starstreamActiveProfile', name);
         window.location.href = 'index.html';
       } else {
-        alert('Please enter a profile name!');
+        alert('Please enter a name.');
       }
-    });
-
-    // Optional: press Enter to submit
-    nameInput.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') saveBtn.click();
     });
   </script>
 </body>
