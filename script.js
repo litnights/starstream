@@ -37,19 +37,25 @@ class MediaCard extends HTMLElement {
 
         const img = document.createElement('img');
         img.src = this.getAttribute('image') || 'https://via.placeholder.com/320x240?text=No+Image';
-        img.alt = this.getAttribute('title') || 'Untitled';
+        img.alt = this.getAttribute('title') || '';
         img.style.width = '100%';
+        img.style.height = '200px';
+        img.style.objectFit = 'cover';
         img.style.display = 'block';
 
         const title = document.createElement('div');
-        title.textContent = `${this.getAttribute('title') || 'Untitled'} (${this.getAttribute('year') || ''})`;
+        const titleText = this.getAttribute('title') || '';
+        const yearText = this.getAttribute('year') || '';
+        if (titleText) {
+            title.textContent = yearText ? `${titleText} (${yearText})` : titleText;
+        }
         title.style.padding = '8px';
         title.style.fontWeight = '600';
         title.style.color = '#f3f4f6';
         title.style.textAlign = 'center';
 
         container.appendChild(img);
-        container.appendChild(title);
+        if (titleText) container.appendChild(title); // only add if there's a title
         shadow.appendChild(container);
     }
 }
@@ -70,10 +76,10 @@ const mediaData = [
 // LocalStorage Sections
 // ----------------------
 const watchlistRaw = JSON.parse(localStorage.getItem('starstreamWatchlist'));
-const watchlist = Array.isArray(watchlistRaw) ? watchlistRaw : [];
+const watchlist = Array.isArray(watchlistRaw) ? watchlistRaw.filter(i => i && (i.title || i.name)) : [];
 
 const recentlyWatchedRaw = JSON.parse(localStorage.getItem('starstreamRecentlyWatched'));
-const recentlyWatched = Array.isArray(recentlyWatchedRaw) ? recentlyWatchedRaw : [];
+const recentlyWatched = Array.isArray(recentlyWatchedRaw) ? recentlyWatchedRaw.filter(i => i && (i.title || i.name)) : [];
 
 // ----------------------
 // Render Function
@@ -87,12 +93,15 @@ function renderSection(gridId, items) {
     }
     grid.innerHTML = '';
     items.forEach(item => {
-        if (!item || !item.title || !item.image) return; // skip invalid
+        const itemTitle = item.title || item.name;
+        const itemImage = item.image || 'https://via.placeholder.com/320x240?text=No+Image';
+        if (!itemTitle) return; // skip items with no title
+
         const card = document.createElement('custom-media-card');
-        card.setAttribute('title', item.title);
-        card.setAttribute('type', item.type);
-        card.setAttribute('year', item.year);
-        card.setAttribute('image', item.image);
+        card.setAttribute('title', itemTitle);
+        card.setAttribute('type', item.type || 'all');
+        card.setAttribute('year', item.year || '');
+        card.setAttribute('image', itemImage);
         grid.appendChild(card);
     });
 }
@@ -119,9 +128,9 @@ function filterMedia() {
     const query = searchInput.value.toLowerCase();
     const type = filterType.value;
 
-    document.querySelectorAll("#recent-grid custom-media-card").forEach(card => {
-        const title = card.getAttribute("title").toLowerCase();
-        const cardType = card.getAttribute("type");
+    document.querySelectorAll("custom-media-card").forEach(card => {
+        const title = (card.getAttribute("title") || "").toLowerCase();
+        const cardType = card.getAttribute("type") || "all";
         card.style.display = (title.includes(query) && (type === "all" || cardType === type)) ? "block" : "none";
     });
 }
