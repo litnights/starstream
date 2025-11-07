@@ -7,21 +7,21 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  
-  <style>
-    body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; background-color: #0f172a; color: #f8fafc; min-height: 100vh; }
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #6366f1, #8b5cf6); border-radius: 4px; }
 
-    .starman-glow { color: #9ca3af; animation: twinkle 4s infinite ease-in-out; }
-    @keyframes twinkle { 0%,100%{opacity:0.7;text-shadow:0 0 2px #818cf8;}50%{opacity:1;text-shadow:0 0 8px #a78bfa;} }
-    .float-animation { animation: float 6s ease-in-out infinite; }
-    @keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="bg-gray-950 text-gray-100 flex flex-col min-h-screen">
+
+  <!-- PROFILE CHECK -->
+  <script>
+    const activeProfile = localStorage.getItem('starstreamActiveProfile');
+    if (!activeProfile || activeProfile === 'null') {
+      window.location.href = 'profile.html';
+    }
+  </script>
+
   <!-- Navbar -->
   <nav class="bg-gray-900/80 px-6 py-4 flex justify-between items-center shadow-lg">
     <div class="text-indigo-400 font-bold text-xl">StarStream</div>
@@ -30,19 +30,56 @@
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero Section -->
   <section class="relative flex items-center justify-center min-h-[70vh] sm:min-h-[85vh] overflow-hidden text-center">
+    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80"
+         alt="Galaxy background"
+         class="absolute inset-0 w-full h-full object-cover opacity-30" />
+    <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-950/80 to-gray-950"></div>
+
     <div class="relative px-4 sm:px-6 max-w-3xl z-10">
       <h1 id="welcomeMsg" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 sm:mb-6 text-white break-words">
-        Welcome, <span class="text-indigo-400"></span>
+        Welcome, <span class="text-indigo-400">Traveler</span>
       </h1>
       <p class="text-base sm:text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 sm:mb-10">
         Stream, discover, and journey through the universe of movies and shows.
       </p>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+        <a href="#recent"
+           class="flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-indigo-600 hover:bg-indigo-700 rounded-full text-base sm:text-lg font-semibold transition transform hover:scale-105 shadow-lg shadow-indigo-500/30">
+          <i data-feather="play" class="mr-2"></i> Start Watching
+        </a>
+        <a href="#about"
+           class="flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-gray-600 hover:border-indigo-400 rounded-full text-base sm:text-lg font-semibold text-gray-300 hover:text-white transition transform hover:scale-105">
+          <i data-feather="info" class="mr-2"></i> Learn More
+        </a>
+      </div>
+
+      <!-- Tribute -->
+      <p class="mt-8 sm:mt-10 text-gray-400 text-xs sm:text-sm italic px-4">
+        “For the dreamers who look to the stars — especially one we call <span class='starman-glow'>Starman</span>.”
+      </p>
     </div>
   </section>
 
-  <!-- Recently Added -->
+  <!-- Search -->
+  <section id="search" class="relative z-20 -mt-8 sm:-mt-12 mb-10 sm:mb-12 px-4 sm:px-6 max-w-5xl mx-auto w-full">
+    <div class="bg-gray-900/80 border border-gray-700 backdrop-blur-lg rounded-2xl p-4 sm:p-6 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+        <input id="searchInput" type="text" placeholder="Search for a movie or show..."
+               class="flex-1 bg-gray-800 text-gray-200 px-4 sm:px-5 py-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+        <select id="filterType"
+                class="bg-gray-800 text-gray-300 px-3 sm:px-4 py-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-indigo-500">
+          <option value="all">All</option>
+          <option value="movie">Movies</option>
+          <option value="tv">TV Shows</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
   <main class="container mx-auto px-4 sm:px-6 flex-1">
     <section id="recent" class="mb-16">
       <div class="flex items-center justify-between mb-6">
@@ -58,79 +95,9 @@
     Made with ❤️ and stardust — a quiet salute to <span class="starman-glow">Starman</span>.
   </div>
 
+  <script src="script.js"></script>
   <script>
     feather.replace();
-
-    // Redirect to profile page if no name saved
-    const profileName = localStorage.getItem('starstreamActiveProfile');
-    if (!profileName || profileName === 'null') {
-      window.location.href = 'profile.html';
-    } else {
-      document.querySelector('#welcomeMsg span').textContent = profileName;
-    }
-
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('starstreamActiveProfile');
-      window.location.href = 'profile.html';
-    });
-
-    // MediaCard custom element
-    class MediaCard extends HTMLElement {
-      constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: 'open' });
-        const container = document.createElement('div');
-        container.style.cursor = 'pointer';
-        container.style.borderRadius = '8px';
-        container.style.overflow = 'hidden';
-        container.style.transition = 'transform 0.2s';
-        container.style.background = '#1f2937';
-        container.style.boxShadow = '0 2px 10px rgba(0,0,0,0.5)';
-        container.addEventListener('mouseenter', () => container.style.transform = 'scale(1.05)');
-        container.addEventListener('mouseleave', () => container.style.transform = 'scale(1)');
-
-        const img = document.createElement('img');
-        img.src = this.getAttribute('image');
-        img.alt = this.getAttribute('title');
-        img.style.width = '100%';
-        img.style.display = 'block';
-
-        const title = document.createElement('div');
-        title.textContent = `${this.getAttribute('title')} (${this.getAttribute('year')})`;
-        title.style.padding = '8px';
-        title.style.fontWeight = '600';
-        title.style.color = '#f3f4f6';
-        title.style.textAlign = 'center';
-
-        container.appendChild(img);
-        container.appendChild(title);
-        shadow.appendChild(container);
-      }
-    }
-    customElements.define('custom-media-card', MediaCard);
-
-    // Media data
-    const mediaData = [
-      { title: "Interstellar", type: "movie", year: "2014", image: "https://static.photos/space/320x240/1" },
-      { title: "The Expanse", type: "tv", year: "2015", image: "https://static.photos/space/320x240/2" },
-      { title: "Gravity", type: "movie", year: "2013", image: "https://static.photos/space/320x240/4" },
-      { title: "Arrival", type: "movie", year: "2016", image: "https://static.photos/space/320x240/5" },
-      { title: "2001: A Space Odyssey", type: "movie", year: "1968", image: "https://static.photos/space/320x240/6" }
-    ];
-
-    // Render media once DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      const recentGrid = document.getElementById("recent-grid");
-      mediaData.forEach(item => {
-        const card = document.createElement('custom-media-card');
-        card.setAttribute('title', item.title);
-        card.setAttribute('type', item.type);
-        card.setAttribute('year', item.year);
-        card.setAttribute('image', item.image);
-        recentGrid.appendChild(card);
-      });
-    });
   </script>
 </body>
 </html>
