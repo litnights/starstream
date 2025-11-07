@@ -1,45 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StarStream - Select Profile</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: 'Poppins', sans-serif; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Profile</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            flex-direction: column;
+        }
+        input, button {
+            font-size: 1.2rem;
+            padding: 0.6rem 1rem;
+            margin: 0.5rem;
+            border-radius: 6px;
+            border: none;
+        }
+        input { width: 250px; }
+        button {
+            background-color: #5b3bd2;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover { background-color: #4428a0; }
+    </style>
 </head>
-<body class="bg-gray-950 text-gray-100 flex items-center justify-center min-h-screen">
+<body>
+    <h1>Create Your Profile</h1>
+    <input type="text" id="profileName" placeholder="Enter your name" />
+    <button id="saveProfile">Continue</button>
 
-  <div class="bg-gray-900 p-10 rounded-xl shadow-xl text-center w-11/12 max-w-md">
-    <h1 class="text-3xl font-bold mb-6 text-indigo-400">Welcome to StarStream</h1>
-    <p class="text-gray-300 mb-6">Enter your profile name to get started</p>
-    <input id="profileName" type="text" placeholder="Your Name"
-           class="w-full px-4 py-3 rounded-lg text-gray-900 text-base mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-    <button id="startBtn"
-            class="w-full bg-indigo-600 hover:bg-indigo-700 px-4 py-3 rounded-lg text-white font-semibold transition transform hover:scale-105">
-      Start Watching
-    </button>
-  </div>
+    <script>
+        document.getElementById('saveProfile').addEventListener('click', () => {
+            const name = document.getElementById('profileName').value.trim();
+            if(name) {
+                localStorage.setItem('username', name);
+                // Fade-out effect before redirect
+                document.body.style.transition = "opacity 0.5s";
+                document.body.style.opacity = 0;
+                setTimeout(() => window.location.href = "index.html", 500);
+            } else {
+                alert("Please enter a name to continue.");
+            }
+        });
 
-  <script>
-    const startBtn = document.getElementById('startBtn');
-    const profileInput = document.getElementById('profileName');
-
-    startBtn.addEventListener('click', () => {
-      const name = profileInput.value.trim();
-      if(!name) return alert("Please enter your name!");
-      localStorage.setItem('starstreamActiveProfile', name);
-      // Smooth transition to main site
-      window.location.href = 'index.html';
-    });
-
-    // Redirect if profile already exists
-    const existingProfile = localStorage.getItem('starstreamActiveProfile');
-    if(existingProfile) {
-      window.location.href = 'index.html';
-    }
-  </script>
-
+        // Optional: press Enter to continue
+        document.getElementById('profileName').addEventListener('keyup', (e) => {
+            if(e.key === "Enter") document.getElementById('saveProfile').click();
+        });
+    </script>
 </body>
 </html>
