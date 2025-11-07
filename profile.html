@@ -1,67 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StarStream - Welcome</title>
-
-  <!-- Tailwind CSS -->
+  <title>StarStream - Select Profile</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-
   <style>
-    body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
-    .starman-glow {
-      color: #9ca3af;
-      animation: twinkle 4s infinite ease-in-out;
-    }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.7; text-shadow: 0 0 2px #818cf8; }
-      50% { opacity: 1; text-shadow: 0 0 8px #a78bfa; }
-    }
+    body { font-family: 'Poppins', sans-serif; background: #111827; color: white; }
+    .fade-in { opacity: 0; animation: fadeIn 1s forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+    .profile-card:hover { transform: scale(1.05); }
   </style>
 </head>
-<body class="bg-gray-950 text-gray-100 flex flex-col items-center justify-center min-h-screen px-4">
+<body class="flex flex-col items-center justify-center min-h-screen px-4">
 
-  <div class="max-w-md w-full text-center">
-    <h1 class="text-4xl sm:text-5xl font-extrabold mb-6 text-indigo-400">
-      Welcome to StarStream
-    </h1>
-    <p class="text-gray-300 mb-8">
-      Before we explore the cosmos of entertainment, tell us your name.
-    </p>
+  <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-indigo-400">Who's Watching?</h1>
 
-    <input id="usernameInput"
-           type="text"
-           placeholder="Enter your name"
-           class="w-full bg-gray-800 text-gray-200 px-4 py-3 rounded-lg text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none mb-4" />
+  <div id="profiles" class="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-6"></div>
 
-    <button id="startBtn"
-            class="w-full bg-indigo-600 hover:bg-indigo-700 rounded-full px-6 py-3 text-lg font-semibold transition transform hover:scale-105 shadow-lg shadow-indigo-500/30">
-      Enter StarStream
+  <form id="profileForm" class="flex flex-col sm:flex-row gap-4">
+    <input type="text" id="username" placeholder="Add new profile" required
+           class="px-4 py-2 rounded-lg text-black w-full sm:w-auto" />
+    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded-lg font-semibold transition">
+      Add & Continue
     </button>
-  </div>
+  </form>
 
   <script>
-    const startBtn = document.getElementById('startBtn');
-    const usernameInput = document.getElementById('usernameInput');
+    const profilesContainer = document.getElementById('profiles');
+    const profileForm = document.getElementById('profileForm');
 
-    startBtn.addEventListener('click', () => {
-      const username = usernameInput.value.trim();
-      if(username) {
-        localStorage.setItem('starstreamUser', username);
-        window.location.href = 'index.html'; // redirect to main site
-      } else {
-        alert('Please enter your name to continue.');
-      }
+    function loadProfiles() {
+      profilesContainer.innerHTML = '';
+      const profiles = JSON.parse(localStorage.getItem('starstreamProfiles')) || [];
+      profiles.forEach(name => {
+        const card = document.createElement('div');
+        card.className = "profile-card bg-gray-800 rounded-lg flex items-center justify-center h-24 cursor-pointer font-semibold text-lg transition transform duration-200 fade-in";
+        card.textContent = name;
+        card.addEventListener('click', () => {
+          localStorage.setItem('starstreamActiveProfile', name);
+          // Fade out then go to main site
+          document.body.classList.add('opacity-0', 'transition', 'duration-700');
+          setTimeout(() => window.location.href = 'index.html', 700);
+        });
+        profilesContainer.appendChild(card);
+      });
+    }
+
+    profileForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      if (!username) return;
+
+      let profiles = JSON.parse(localStorage.getItem('starstreamProfiles')) || [];
+      if (!profiles.includes(username)) profiles.push(username);
+
+      localStorage.setItem('starstreamProfiles', JSON.stringify(profiles));
+      localStorage.setItem('starstreamActiveProfile', username);
+
+      // Fade out then go to main site
+      document.body.classList.add('opacity-0', 'transition', 'duration-700');
+      setTimeout(() => window.location.href = 'index.html', 700);
     });
 
-    // Optional: Allow Enter key to submit
-    usernameInput.addEventListener('keypress', (e) => {
-      if(e.key === 'Enter') startBtn.click();
-    });
+    loadProfiles();
   </script>
+
 </body>
 </html>
