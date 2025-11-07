@@ -2,11 +2,13 @@
 // Profile Handling
 // ----------------------
 const profileName = localStorage.getItem('starstreamActiveProfile');
+const welcomeEl = document.getElementById('welcomeMsg');
+
 if (!profileName) {
     // Redirect to profile selection page if no profile
     window.location.href = 'profile.html';
 } else {
-    document.getElementById('welcomeMsg').innerHTML = `Welcome, <span class="text-indigo-400">${profileName}</span>`;
+    welcomeEl.innerHTML = `Welcome, <span class="text-indigo-400">${profileName}</span>`;
 }
 
 // Logout button
@@ -108,4 +110,23 @@ renderSection('tvshows-grid', mediaData.filter(m => m.type === 'tv'));
 // Search & Filter
 // ----------------------
 const searchInput = document.getElementById("searchInput");
-const filterType = document.getElementById("filterTy
+const filterType = document.getElementById("filterType");
+
+searchInput.addEventListener("input", filterMedia);
+filterType.addEventListener("change", filterMedia);
+
+function filterMedia() {
+    const query = searchInput.value.toLowerCase();
+    const type = filterType.value;
+
+    document.querySelectorAll("#recent-grid custom-media-card").forEach(card => {
+        const title = card.getAttribute("title").toLowerCase();
+        const cardType = card.getAttribute("type");
+        card.style.display = (title.includes(query) && (type === "all" || cardType === type)) ? "block" : "none";
+    });
+}
+
+// ----------------------
+// Feather Icons
+// ----------------------
+feather.replace();
