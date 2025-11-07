@@ -6,16 +6,12 @@
   <title>StarStream - Select Profile</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at 10% 20%, rgba(55, 48, 163, 0.1) 0%, rgba(55, 48, 163, 0) 20%),
-                  radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.1) 0%, rgba(124, 58, 237, 0) 20%);
-      background-attachment: fixed;
+      background-color: #000; /* full black background */
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -23,9 +19,8 @@
       padding: 1rem;
     }
 
-    /* Floating card */
     .profile-card {
-      background: rgba(17, 24, 39, 0.85);
+      background: rgba(17, 24, 39, 0.9);
       backdrop-filter: blur(10px);
       padding: 2rem;
       border-radius: 1rem;
@@ -41,7 +36,6 @@
       50% { transform: translateY(-10px); }
     }
 
-    /* Input styling */
     #profileNameInput {
       width: 100%;
       padding: 0.75rem 1rem;
@@ -49,7 +43,7 @@
       border-radius: 0.75rem;
       border: none;
       background: rgba(31, 41, 55, 0.9);
-      color: #e5e7eb;
+      color: #fff; /* visible text */
       font-size: 1rem;
       outline: none;
     }
@@ -58,7 +52,6 @@
       color: #9ca3af;
     }
 
-    /* Button styling */
     #saveProfileBtn {
       width: 100%;
       padding: 0.75rem;
@@ -75,20 +68,27 @@
     }
   </style>
 </head>
-
 <body>
   <div class="profile-card">
     <h1 class="text-2xl font-bold text-indigo-400 mb-4">Welcome to StarStream</h1>
-    <p class="text-gray-300 mb-6 text-sm">What's your name?:</p>
+    <p class="text-gray-300 mb-6 text-sm">What's your name?</p>
 
-    <input id="profileNameInput" type="text" placeholder="Your name..." />
+    <input id="profileNameInput" type="text" placeholder="Your name..." autofocus />
 
     <button id="saveProfileBtn">Create Profile</button>
   </div>
 
   <script>
-    document.getElementById('saveProfileBtn').addEventListener('click', () => {
-      const name = document.getElementById('profileNameInput').value.trim();
+    // Redirect if profile already exists
+    if (localStorage.getItem('starstreamActiveProfile')) {
+      window.location.href = 'index.html';
+    }
+
+    const input = document.getElementById('profileNameInput');
+    const btn = document.getElementById('saveProfileBtn');
+
+    btn.addEventListener('click', () => {
+      const name = input.value.trim();
       if (!name) {
         alert("Please enter a name!");
         return;
@@ -97,10 +97,9 @@
       window.location.href = 'index.html';
     });
 
-    // Press Enter to submit
-    document.getElementById('profileNameInput').addEventListener('keypress', (e) => {
+    input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
-        document.getElementById('saveProfileBtn').click();
+        btn.click();
       }
     });
   </script>
