@@ -1,58 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StarStream - Select Profile</title>
-<link rel="stylesheet" href="style.css">
-<style>
-body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; color: white; }
-h1 { font-size: 2rem; margin-bottom: 1rem; }
-.profile { padding: 16px 24px; margin: 8px; background: #1f2937; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-.profile:hover { background: #3b82f6; color: white; transform: scale(1.05); }
-input, button { padding: 8px 12px; border-radius: 6px; border: none; }
-input { margin-right: 8px; }
-button { background: #6366f1; color: white; cursor: pointer; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Your Profile - StarStream</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #0f172a; color: #e5e7eb; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    .profile-box { background: #1e293b; padding: 2rem; border-radius: 12px; text-align: center; width: 100%; max-width: 400px; }
+    input { width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: none; margin-top: 1rem; }
+    button { margin-top: 1.5rem; padding: 0.75rem 1.5rem; border-radius: 8px; background: #6366f1; color: #fff; font-weight: 600; cursor: pointer; }
+    button:hover { background: #4f46e5; }
+  </style>
 </head>
 <body>
-<h1>Choose a Profile</h1>
-<div id="profiles"></div>
-<div style="margin-top:16px;">
-  <input id="newProfileName" type="text" placeholder="Enter your name">
-  <button id="addProfileBtn">Add Profile</button>
-</div>
-<script>
-const profilesDiv = document.getElementById('profiles');
-let profiles = JSON.parse(localStorage.getItem('starstreamProfiles') || '[]');
+  <div class="profile-box">
+    <h1 class="text-2xl font-bold mb-4">Welcome to StarStream</h1>
+    <p class="text-gray-300">Enter your profile name to start streaming:</p>
+    <input type="text" id="profileName" placeholder="Your name..." />
+    <button id="saveProfile">Continue</button>
+  </div>
 
-function renderProfiles() {
-  profilesDiv.innerHTML = '';
-  profiles.forEach(name => {
-    const div = document.createElement('div');
-    div.className = 'profile';
-    div.textContent = name;
-    div.onclick = () => {
-      localStorage.setItem('starstreamActiveProfile', name);
-      window.location.href = 'index.html';
-    };
-    profilesDiv.appendChild(div);
-  });
-}
+  <script>
+    const saveBtn = document.getElementById('saveProfile');
+    const input = document.getElementById('profileName');
 
-renderProfiles();
+    saveBtn.addEventListener('click', () => {
+      const name = input.value.trim();
+      if (name) {
+        localStorage.setItem('starstreamActiveProfile', name);
+        window.location.href = 'index.html';
+      } else {
+        alert('Please enter a profile name!');
+      }
+    });
 
-document.getElementById('addProfileBtn').onclick = () => {
-  const input = document.getElementById('newProfileName');
-  const name = input.value.trim();
-  if (!name) return;
-  if (!profiles.includes(name)) {
-    profiles.push(name);
-    localStorage.setItem('starstreamProfiles', JSON.stringify(profiles));
-  }
-  input.value = '';
-  renderProfiles();
-};
-</script>
+    // Optional: Press Enter to save
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') saveBtn.click();
+    });
+  </script>
 </body>
 </html>
