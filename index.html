@@ -4,14 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StarStream - Cosmic Media Hub</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; background: #111827; color: #f9fafb; transition: opacity 0.7s; }
+    body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #6366f1, #8b5cf6); border-radius: 4px; }
 
+    /* Subtle "Starman" glow effect */
     .starman-glow {
       color: #9ca3af;
       animation: twinkle 4s infinite ease-in-out;
@@ -20,24 +24,30 @@
       0%, 100% { opacity: 0.7; text-shadow: 0 0 2px #818cf8; }
       50% { opacity: 1; text-shadow: 0 0 8px #a78bfa; }
     }
-
-    #heroHeading span { display: inline-block; }
   </style>
 </head>
-<body class="flex flex-col min-h-screen">
+
+<body class="bg-gray-950 text-gray-100 flex flex-col min-h-screen">
 
   <!-- Navbar -->
-  <custom-navbar></custom-navbar>
+  <nav class="bg-gray-900/80 px-6 py-4 flex justify-between items-center shadow-lg">
+    <div class="text-indigo-400 font-bold text-xl">StarStream</div>
+    <div>
+      <button id="logoutBtn" class="text-gray-300 hover:text-white text-sm sm:text-base">Logout</button>
+    </div>
+  </nav>
 
   <!-- Hero Section -->
-  <section class="relative flex items-center justify-center min-h-[70vh] sm:min-h-[85vh] overflow-hidden text-center px-4">
+  <section class="relative flex items-center justify-center min-h-[70vh] sm:min-h-[85vh] overflow-hidden text-center">
     <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80"
          alt="Galaxy background"
          class="absolute inset-0 w-full h-full object-cover opacity-30" />
     <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-950/80 to-gray-950"></div>
 
-    <div class="relative max-w-3xl z-10">
-      <h1 id="heroHeading" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 sm:mb-6 break-words"></h1>
+    <div class="relative px-4 sm:px-6 max-w-3xl z-10">
+      <h1 id="welcomeMsg" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 sm:mb-6 text-white break-words">
+        Welcome, <span class="text-indigo-400">Traveler</span>
+      </h1>
       <p class="text-base sm:text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 sm:mb-10">
         Stream, discover, and journey through the universe of movies and shows.
       </p>
@@ -53,9 +63,14 @@
         </a>
       </div>
 
-      
+      <!-- Tribute -->
+      <p class="mt-8 sm:mt-10 text-gray-400 text-xs sm:text-sm italic px-4">
+        “For the dreamers who look to the stars — especially one we call <span class='starman-glow'>Starman</span>.”
+      </p>
+    </div>
+  </section>
 
-  <!-- Search & Filter -->
+  <!-- Search -->
   <section id="search" class="relative z-20 -mt-8 sm:-mt-12 mb-10 sm:mb-12 px-4 sm:px-6 max-w-5xl mx-auto w-full">
     <div class="bg-gray-900/80 border border-gray-700 backdrop-blur-lg rounded-2xl p-4 sm:p-6 shadow-xl">
       <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
@@ -78,90 +93,86 @@
         <h2 class="text-2xl sm:text-3xl font-bold text-indigo-400 flex items-center">
           <i data-feather="star" class="mr-2"></i> Recently Added
         </h2>
-        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center text-sm sm:text-base">
-          View All <i data-feather="chevron-right" class="ml-1"></i>
-        </a>
       </div>
       <div id="recent-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6"></div>
     </section>
-
-    <section id="movies" class="mb-16">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl sm:text-3xl font-bold text-indigo-400 flex items-center">
-          <i data-feather="film" class="mr-2"></i> Movies
-        </h2>
-        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center text-sm sm:text-base">
-          View All <i data-feather="chevron-right" class="ml-1"></i>
-        </a>
-      </div>
-      <div id="movies-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6"></div>
-    </section>
-
-    <section id="tvshows" class="mb-16">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl sm:text-3xl font-bold text-indigo-400 flex items-center">
-          <i data-feather="tv" class="mr-2"></i> TV Shows
-        </h2>
-        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center text-sm sm:text-base">
-          View All <i data-feather="chevron-right" class="ml-1"></i>
-        </a>
-      </div>
-      <div id="tv-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6"></div>
-    </section>
   </main>
 
-  <custom-footer></custom-footer>
-
   <div class="text-center text-xs text-gray-500 py-4 border-t border-gray-800">
-   Created for <span class="starman-glow">Starman</span> © 2025.
+    Made with ❤️ and stardust — a quiet salute to <span class="starman-glow">Starman</span>.
   </div>
 
-  <!-- Scripts -->
   <script>
     feather.replace();
 
-    // Welcome user
-    document.addEventListener('DOMContentLoaded', () => {
-      const activeProfile = localStorage.getItem('starstreamActiveProfile') || 'Traveler';
-      document.getElementById('heroHeading').innerHTML = `Welcome, <span class="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">${activeProfile}</span>!`;
+    // Check profile
+    const profileName = localStorage.getItem('starstreamActiveProfile') || "Traveler";
+    document.getElementById('welcomeMsg').innerHTML = `Welcome, <span class="text-indigo-400">${profileName}</span>`;
+
+    // Logout button
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('starstreamActiveProfile');
+      window.location.href = 'profile.html';
     });
 
-    // Media Data
+    // MediaCard definition
+    class MediaCard extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        const container = document.createElement('div');
+        container.style.cursor = 'pointer';
+        container.style.borderRadius = '8px';
+        container.style.overflow = 'hidden';
+        container.style.transition = 'transform 0.2s';
+        container.style.background = '#1f2937';
+        container.style.boxShadow = '0 2px 10px rgba(0,0,0,0.5)';
+        container.addEventListener('mouseenter', () => container.style.transform = 'scale(1.05)');
+        container.addEventListener('mouseleave', () => container.style.transform = 'scale(1)');
+
+        const img = document.createElement('img');
+        img.src = this.getAttribute('image');
+        img.alt = this.getAttribute('title');
+        img.style.width = '100%';
+        img.style.display = 'block';
+
+        const title = document.createElement('div');
+        title.textContent = `${this.getAttribute('title')} (${this.getAttribute('year')})`;
+        title.style.padding = '8px';
+        title.style.fontWeight = '600';
+        title.style.color = '#f3f4f6';
+        title.style.textAlign = 'center';
+
+        container.appendChild(img);
+        container.appendChild(title);
+        shadow.appendChild(container);
+      }
+    }
+    customElements.define('custom-media-card', MediaCard);
+
+    // Media data
     const mediaData = [
       { title: "Interstellar", type: "movie", year: "2014", image: "https://static.photos/space/320x240/1" },
       { title: "The Expanse", type: "tv", year: "2015", image: "https://static.photos/space/320x240/2" },
-      { title: "Cosmos", type: "tv", year: "2014", image: "https://static.photos/space/320x240/3" },
       { title: "Gravity", type: "movie", year: "2013", image: "https://static.photos/space/320x240/4" },
       { title: "Arrival", type: "movie", year: "2016", image: "https://static.photos/space/320x240/5" },
-      { title: "2001: A Space Odyssey", type: "movie", year: "1968", image: "https://static.photos/space/320x240/6" },
-      { title: "The Martian", type: "movie", year: "2015", image: "https://static.photos/space/320x240/7" },
-      { title: "For All Mankind", type: "tv", year: "2019", image: "https://static.photos/space/320x240/11" },
-      { title: "Star Trek: Discovery", type: "tv", year: "2017", image: "https://static.photos/space/320x240/12" }
+      { title: "2001: A Space Odyssey", type: "movie", year: "1968", image: "https://static.photos/space/320x240/6" }
     ];
 
-    const grids = {
-      recent: document.getElementById("recent-grid"),
-      movies: document.getElementById("movies-grid"),
-      tv: document.getElementById("tv-grid"),
-    };
+    const recentGrid = document.getElementById("recent-grid");
 
-    function renderMedia() {
-      Object.values(grids).forEach(g => g.innerHTML = "");
-      mediaData.forEach(item => {
-        const card = document.createElement("custom-media-card");
-        card.setAttribute("title", item.title);
-        card.setAttribute("type", item.type);
-        card.setAttribute("year", item.year);
-        card.setAttribute("image", item.image);
-        grids.recent.appendChild(card);
-        if(item.type === "movie") grids.movies.appendChild(card.cloneNode(true));
-        if(item.type === "tv") grids.tv.appendChild(card.cloneNode(true));
-      });
-    }
+    // Render media
+    mediaData.forEach(item => {
+      const card = document.createElement('custom-media-card');
+      card.setAttribute('title', item.title);
+      card.setAttribute('type', item.type);
+      card.setAttribute('year', item.year);
+      card.setAttribute('image', item.image);
+      recentGrid.appendChild(card);
+    });
 
-    renderMedia();
-
-    // Search & Filter
+    // Search/filter
     const searchInput = document.getElementById("searchInput");
     const filterType = document.getElementById("filterType");
 
@@ -171,11 +182,10 @@
     function filterMedia() {
       const query = searchInput.value.toLowerCase();
       const type = filterType.value;
-      document.querySelectorAll("custom-media-card").forEach(card => {
+      recentGrid.querySelectorAll("custom-media-card").forEach(card => {
         const title = card.getAttribute("title").toLowerCase();
         const cardType = card.getAttribute("type");
-        const match = title.includes(query) && (type === "all" || cardType === type);
-        card.style.display = match ? "block" : "none";
+        card.style.display = (title.includes(query) && (type === "all" || cardType === type)) ? "block" : "none";
       });
     }
   </script>
