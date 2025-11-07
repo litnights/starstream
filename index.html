@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>StarStream - Cosmic Media Hub</title>
+  <title>StarStream – Cosmic Media Hub</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -13,9 +13,15 @@
 
   <!-- Meta & SEO -->
   <meta name="description" content="Explore cosmic movies and sci-fi series. Stream, discover, and journey through the universe of entertainment." />
-  <meta property="og:title" content="StarStream - Cosmic Media Hub" />
+  <meta property="og:title" content="StarStream – Cosmic Media Hub" />
+  <meta property="og:description" content="Explore cosmic movies and sci-fi series. Stream, discover, and journey through the universe of entertainment." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://YOUR_USERNAME.github.io/starstream/" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1451187580459-43490279c0fa" />
   <meta name="theme-color" content="#1f2937" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/svg/1f320.svg" type="image/svg+xml">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -28,7 +34,10 @@
   <style>
     body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #6366f1, #8b5cf6); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+      border-radius: 4px;
+    }
 
     /* Subtle "Starman" glow effect */
     .starman-glow {
@@ -48,9 +57,9 @@
   <custom-navbar></custom-navbar>
 
   <!-- Hero Section -->
-  <section class="relative flex items-center justify-center min-h-[70vh] sm:min-h-[85vh] overflow-hidden text-center">
+  <section class="relative flex items-center justify-center pt-16 sm:pt-20 min-h-[70vh] sm:min-h-[85vh] overflow-hidden text-center">
     <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80"
-         alt="Galaxy background"
+         alt="Galaxy background" loading="lazy"
          class="absolute inset-0 w-full h-full object-cover opacity-30" />
     <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-950/80 to-gray-950"></div>
 
@@ -63,11 +72,11 @@
       </p>
 
       <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-        <a href="#recent"
+        <a href="#recent" aria-label="Start watching StarStream content"
            class="flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-indigo-600 hover:bg-indigo-700 rounded-full text-base sm:text-lg font-semibold transition transform hover:scale-105 shadow-lg shadow-indigo-500/30">
           <i data-feather="play" class="mr-2"></i> Start Watching
         </a>
-        <a href="#about"
+        <a href="#about" aria-label="Learn more about StarStream"
            class="flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-gray-600 hover:border-indigo-400 rounded-full text-base sm:text-lg font-semibold text-gray-300 hover:text-white transition transform hover:scale-105">
           <i data-feather="info" class="mr-2"></i> Learn More
         </a>
@@ -150,15 +159,15 @@
 
     // Media Data
     const mediaData = [
-      { title: "Interstellar", type: "movie", year: "2014", image: "https://static.photos/space/320x240/1" },
-      { title: "The Expanse", type: "tv", year: "2015", image: "https://static.photos/space/320x240/2" },
-      { title: "Cosmos", type: "tv", year: "2014", image: "https://static.photos/space/320x240/3" },
-      { title: "Gravity", type: "movie", year: "2013", image: "https://static.photos/space/320x240/4" },
-      { title: "Arrival", type: "movie", year: "2016", image: "https://static.photos/space/320x240/5" },
-      { title: "2001: A Space Odyssey", type: "movie", year: "1968", image: "https://static.photos/space/320x240/6" },
-      { title: "The Martian", type: "movie", year: "2015", image: "https://static.photos/space/320x240/7" },
-      { title: "For All Mankind", type: "tv", year: "2019", image: "https://static.photos/space/320x240/11" },
-      { title: "Star Trek: Discovery", type: "tv", year: "2017", image: "https://static.photos/space/320x240/12" }
+      { title: "Interstellar", type: "movie", year: "2014", image: "https://picsum.photos/320/240?random=1" },
+      { title: "The Expanse", type: "tv", year: "2015", image: "https://picsum.photos/320/240?random=2" },
+      { title: "Cosmos", type: "tv", year: "2014", image: "https://picsum.photos/320/240?random=3" },
+      { title: "Gravity", type: "movie", year: "2013", image: "https://picsum.photos/320/240?random=4" },
+      { title: "Arrival", type: "movie", year: "2016", image: "https://picsum.photos/320/240?random=5" },
+      { title: "2001: A Space Odyssey", type: "movie", year: "1968", image: "https://picsum.photos/320/240?random=6" },
+      { title: "The Martian", type: "movie", year: "2015", image: "https://picsum.photos/320/240?random=7" },
+      { title: "For All Mankind", type: "tv", year: "2019", image: "https://picsum.photos/320/240?random=8" },
+      { title: "Star Trek: Discovery", type: "tv", year: "2017", image: "https://picsum.photos/320/240?random=9" }
     ];
 
     const grids = {
