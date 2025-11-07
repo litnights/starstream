@@ -14,7 +14,7 @@
 
 <body class="bg-gray-950 text-gray-100 flex flex-col min-h-screen">
 
-  <!-- PROFILE CHECK -->
+  <!-- Check for profile -->
   <script>
     const activeProfile = localStorage.getItem('starstreamActiveProfile');
     if (!activeProfile || activeProfile === 'null') {
@@ -56,12 +56,7 @@
         </a>
       </div>
 
-      <!-- Tribute -->
-      <p class="mt-8 sm:mt-10 text-gray-400 text-xs sm:text-sm italic px-4">
-        “For the dreamers who look to the stars — especially one we call <span class='starman-glow'>Starman</span>.”
-      </p>
-    </div>
-  </section>
+     
 
   <!-- Search -->
   <section id="search" class="relative z-20 -mt-8 sm:-mt-12 mb-10 sm:mb-12 px-4 sm:px-6 max-w-5xl mx-auto w-full">
@@ -89,15 +84,14 @@
       </div>
       <div id="recent-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6"></div>
     </section>
+
+    <!-- Placeholder for other sections like Featured, Trending, Genres -->
   </main>
 
   <div class="text-center text-xs text-gray-500 py-4 border-t border-gray-800">
-    Made with ❤️ and stardust — a quiet salute to <span class="starman-glow">Starman</span>.
+    Created for <span class="starman-glow">Starman</span>.
   </div>
 
   <script src="script.js"></script>
-  <script>
-    feather.replace();
-  </script>
 </body>
 </html>
