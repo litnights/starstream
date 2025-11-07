@@ -2,17 +2,17 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>StarStream - Cosmic Media Hub</title>
 
-  <!-- TailwindCSS -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Feather Icons -->
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
-  <!-- Meta SEO -->
-  <meta name="description" content="Explore cosmic movies and sci-fi series in one place. Stream, discover, and journey through the universe of entertainment." />
+  <!-- Meta & SEO -->
+  <meta name="description" content="Explore cosmic movies and sci-fi series. Stream, discover, and journey through the universe of entertainment." />
   <meta property="og:title" content="StarStream - Cosmic Media Hub" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1451187580459-43490279c0fa" />
   <meta name="theme-color" content="#1f2937" />
@@ -30,62 +30,64 @@
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #6366f1, #8b5cf6); border-radius: 4px; }
 
-    /* Subtle "Starman" Easter Egg animation */
+    /* Subtle "Starman" glow effect */
     .starman-glow {
       color: #9ca3af;
-      font-size: 0.875rem;
-      letter-spacing: 0.05em;
       animation: twinkle 4s infinite ease-in-out;
     }
     @keyframes twinkle {
-      0%, 100% { opacity: 0.6; text-shadow: 0 0 2px #818cf8; }
+      0%, 100% { opacity: 0.7; text-shadow: 0 0 2px #818cf8; }
       50% { opacity: 1; text-shadow: 0 0 8px #a78bfa; }
     }
   </style>
 </head>
 
-<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
+<body class="bg-gray-950 text-gray-100 flex flex-col min-h-screen">
 
   <!-- Navbar -->
   <custom-navbar></custom-navbar>
 
   <!-- Hero Section -->
-  <section class="relative flex items-center justify-center h-[85vh] overflow-hidden">
-    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80" 
-         alt="Galaxy background" 
+  <section class="relative flex items-center justify-center min-h-[70vh] sm:min-h-[85vh] overflow-hidden text-center">
+    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80"
+         alt="Galaxy background"
          class="absolute inset-0 w-full h-full object-cover opacity-30" />
-    <div class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-950/80 to-gray-950"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-950/80 to-gray-950"></div>
 
-    <div class="relative text-center px-6 z-10">
-      <h1 class="text-6xl sm:text-7xl font-extrabold mb-6 leading-tight text-white">
+    <div class="relative px-4 sm:px-6 max-w-3xl z-10">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 sm:mb-6 text-white break-words">
         Explore the <span class="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">Cosmos</span> of Entertainment
       </h1>
-      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+      <p class="text-base sm:text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 sm:mb-10">
         Stream, discover, and journey through the universe of movies and shows.
       </p>
-      <div class="flex justify-center gap-4">
-        <a href="#recent" class="flex items-center px-8 py-4 bg-indigo-600 hover:bg-indigo-700 rounded-full text-lg font-semibold transition transform hover:scale-105 shadow-lg shadow-indigo-500/30">
+
+      <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+        <a href="#recent"
+           class="flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-indigo-600 hover:bg-indigo-700 rounded-full text-base sm:text-lg font-semibold transition transform hover:scale-105 shadow-lg shadow-indigo-500/30">
           <i data-feather="play" class="mr-2"></i> Start Watching
         </a>
-        <a href="#about" class="flex items-center px-8 py-4 border-2 border-gray-600 hover:border-indigo-400 rounded-full text-lg font-semibold text-gray-300 hover:text-white transition transform hover:scale-105">
+        <a href="#about"
+           class="flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-gray-600 hover:border-indigo-400 rounded-full text-base sm:text-lg font-semibold text-gray-300 hover:text-white transition transform hover:scale-105">
           <i data-feather="info" class="mr-2"></i> Learn More
         </a>
       </div>
 
-      <!-- ✨ Starman Tribute under hero text -->
-      <p class="mt-10 text-gray-400 text-sm italic">
+      <!-- Tribute -->
+      <p class="mt-8 sm:mt-10 text-gray-400 text-xs sm:text-sm italic px-4">
         “For the dreamers who look to the stars — especially one we call <span class='starman-glow'>Starman</span>.”
       </p>
     </div>
   </section>
 
   <!-- Search & Filter -->
-  <section id="search" class="relative z-20 -mt-12 mb-12 px-6 max-w-5xl mx-auto">
-    <div class="bg-gray-900/80 border border-gray-700 backdrop-blur-lg rounded-2xl p-6 shadow-xl">
-      <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-        <input type="text" id="searchInput" placeholder="Search for a movie or show..." 
-               class="flex-1 bg-gray-800 text-gray-200 px-5 py-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
-        <select id="filterType" class="bg-gray-800 text-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-indigo-500">
+  <section id="search" class="relative z-20 -mt-8 sm:-mt-12 mb-10 sm:mb-12 px-4 sm:px-6 max-w-5xl mx-auto w-full">
+    <div class="bg-gray-900/80 border border-gray-700 backdrop-blur-lg rounded-2xl p-4 sm:p-6 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+        <input id="searchInput" type="text" placeholder="Search for a movie or show..."
+               class="flex-1 bg-gray-800 text-gray-200 px-4 sm:px-5 py-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+        <select id="filterType"
+                class="bg-gray-800 text-gray-300 px-3 sm:px-4 py-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-indigo-500">
           <option value="all">All</option>
           <option value="movie">Movies</option>
           <option value="tv">TV Shows</option>
@@ -95,52 +97,54 @@
   </section>
 
   <!-- Main Content -->
-  <main class="container mx-auto px-6 flex-1">
+  <main class="container mx-auto px-4 sm:px-6 flex-1">
+    <!-- Section Template -->
     <section id="recent" class="mb-16">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-3xl font-bold text-indigo-400 flex items-center">
+        <h2 class="text-2xl sm:text-3xl font-bold text-indigo-400 flex items-center">
           <i data-feather="star" class="mr-2"></i> Recently Added
         </h2>
-        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center">
+        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center text-sm sm:text-base">
           View All <i data-feather="chevron-right" class="ml-1"></i>
         </a>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6" id="recent-grid"></div>
+      <div id="recent-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6"></div>
     </section>
 
     <section id="movies" class="mb-16">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-3xl font-bold text-indigo-400 flex items-center">
+        <h2 class="text-2xl sm:text-3xl font-bold text-indigo-400 flex items-center">
           <i data-feather="film" class="mr-2"></i> Movies
         </h2>
-        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center">
+        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center text-sm sm:text-base">
           View All <i data-feather="chevron-right" class="ml-1"></i>
         </a>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6" id="movies-grid"></div>
+      <div id="movies-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6"></div>
     </section>
 
     <section id="tvshows" class="mb-16">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-3xl font-bold text-indigo-400 flex items-center">
+        <h2 class="text-2xl sm:text-3xl font-bold text-indigo-400 flex items-center">
           <i data-feather="tv" class="mr-2"></i> TV Shows
         </h2>
-        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center">
+        <a href="#" class="text-indigo-300 hover:text-indigo-200 flex items-center text-sm sm:text-base">
           View All <i data-feather="chevron-right" class="ml-1"></i>
         </a>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6" id="tv-grid"></div>
+      <div id="tv-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6"></div>
     </section>
   </main>
 
   <!-- Footer -->
   <custom-footer></custom-footer>
 
-  <!-- Tiny Starman footer note -->
+  <!-- Footer Tribute -->
   <div class="text-center text-xs text-gray-500 py-4 border-t border-gray-800">
     Made with ❤️ and stardust — a quiet salute to <span class="starman-glow">Starman</span>.
   </div>
 
+  <!-- Scripts -->
   <script>
     feather.replace();
 
@@ -171,7 +175,6 @@
         card.setAttribute("type", item.type);
         card.setAttribute("year", item.year);
         card.setAttribute("image", item.image);
-
         grids.recent.appendChild(card);
         if (item.type === "movie") grids.movies.appendChild(card.cloneNode(true));
         if (item.type === "tv") grids.tv.appendChild(card.cloneNode(true));
@@ -180,7 +183,7 @@
 
     renderMedia();
 
-    // Search & Filter Functionality
+    // Search & Filter
     const searchInput = document.getElementById("searchInput");
     const filterType = document.getElementById("filterType");
 
@@ -190,9 +193,7 @@
     function filterMedia() {
       const query = searchInput.value.toLowerCase();
       const type = filterType.value;
-      const cards = document.querySelectorAll("custom-media-card");
-
-      cards.forEach(card => {
+      document.querySelectorAll("custom-media-card").forEach(card => {
         const title = card.getAttribute("title").toLowerCase();
         const cardType = card.getAttribute("type");
         const match = title.includes(query) && (type === "all" || cardType === type);
