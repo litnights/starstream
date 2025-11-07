@@ -1,60 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Profile</title>
-    <link href="style.css" rel="stylesheet">
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #0a0a0a;
-            color: white;
-            flex-direction: column;
-        }
-        input, button {
-            font-size: 1.2rem;
-            padding: 0.6rem 1rem;
-            margin: 0.5rem;
-            border-radius: 6px;
-            border: none;
-        }
-        input { width: 250px; }
-        button {
-            background-color: #5b3bd2;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover { background-color: #4428a0; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StarStream - Select Profile</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; color: white; }
+h1 { font-size: 2rem; margin-bottom: 1rem; }
+.profile { padding: 16px 24px; margin: 8px; background: #1f2937; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+.profile:hover { background: #3b82f6; color: white; transform: scale(1.05); }
+input, button { padding: 8px 12px; border-radius: 6px; border: none; }
+input { margin-right: 8px; }
+button { background: #6366f1; color: white; cursor: pointer; }
+</style>
 </head>
 <body>
-    <h1>Create Your Profile</h1>
-    <input type="text" id="profileName" placeholder="Enter your name" />
-    <button id="saveProfile">Continue</button>
+<h1>Choose a Profile</h1>
+<div id="profiles"></div>
+<div style="margin-top:16px;">
+  <input id="newProfileName" type="text" placeholder="Enter your name">
+  <button id="addProfileBtn">Add Profile</button>
+</div>
+<script>
+const profilesDiv = document.getElementById('profiles');
+let profiles = JSON.parse(localStorage.getItem('starstreamProfiles') || '[]');
 
-    <script>
-        document.getElementById('saveProfile').addEventListener('click', () => {
-            const name = document.getElementById('profileName').value.trim();
-            if(name) {
-                localStorage.setItem('username', name);
-                // Fade-out effect before redirect
-                document.body.style.transition = "opacity 0.5s";
-                document.body.style.opacity = 0;
-                setTimeout(() => window.location.href = "index.html", 500);
-            } else {
-                alert("Please enter a name to continue.");
-            }
-        });
+function renderProfiles() {
+  profilesDiv.innerHTML = '';
+  profiles.forEach(name => {
+    const div = document.createElement('div');
+    div.className = 'profile';
+    div.textContent = name;
+    div.onclick = () => {
+      localStorage.setItem('starstreamActiveProfile', name);
+      window.location.href = 'index.html';
+    };
+    profilesDiv.appendChild(div);
+  });
+}
 
-        // Optional: press Enter to continue
-        document.getElementById('profileName').addEventListener('keyup', (e) => {
-            if(e.key === "Enter") document.getElementById('saveProfile').click();
-        });
-    </script>
+renderProfiles();
+
+document.getElementById('addProfileBtn').onclick = () => {
+  const input = document.getElementById('newProfileName');
+  const name = input.value.trim();
+  if (!name) return;
+  if (!profiles.includes(name)) {
+    profiles.push(name);
+    localStorage.setItem('starstreamProfiles', JSON.stringify(profiles));
+  }
+  input.value = '';
+  renderProfiles();
+};
+</script>
 </body>
 </html>
