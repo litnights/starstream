@@ -1,16 +1,39 @@
-// Display saved profile name
+// Replace feather icons
+feather.replace();
+
+// Profile
 const profileName = localStorage.getItem('starstreamActiveProfile');
 if(profileName) {
-  document.getElementById('welcomeMsg').innerHTML = `Welcome, <span class="text-indigo-400">${profileName}</span>`;
+  const welcomeMsg = document.getElementById('welcomeMsg');
+  if(welcomeMsg) {
+    welcomeMsg.innerHTML = `Welcome, <span class="text-indigo-400">${profileName}</span>`;
+  }
 }
 
-// Logout button
-document.getElementById('logoutBtn').addEventListener('click', () => {
-  localStorage.removeItem('starstreamActiveProfile');
-  window.location.href = 'profile.html';
-});
+// Logout
+const logoutBtn = document.getElementById('logoutBtn');
+if(logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('starstreamActiveProfile');
+    window.location.href = 'profile.html';
+  });
+}
 
-// MediaCard definition
+// Profile save for profile.html
+const saveProfileBtn = document.getElementById('saveProfileBtn');
+if(saveProfileBtn) {
+  saveProfileBtn.addEventListener('click', () => {
+    const input = document.getElementById('profileNameInput');
+    if(input && input.value.trim() !== "") {
+      localStorage.setItem('starstreamActiveProfile', input.value.trim());
+      window.location.href = 'index.html';
+    } else {
+      alert('Please enter a profile name.');
+    }
+  });
+}
+
+// MediaCard custom element
 class MediaCard extends HTMLElement {
   constructor() {
     super();
@@ -46,7 +69,7 @@ class MediaCard extends HTMLElement {
 }
 customElements.define('custom-media-card', MediaCard);
 
-// Sample media data
+// Example media data
 const mediaData = [
   { title: "Interstellar", type: "movie", year: "2014", image: "https://static.photos/space/320x240/1" },
   { title: "The Expanse", type: "tv", year: "2015", image: "https://static.photos/space/320x240/2" },
@@ -56,30 +79,32 @@ const mediaData = [
 ];
 
 const recentGrid = document.getElementById("recent-grid");
-
-// Render media
-mediaData.forEach(item => {
-  const card = document.createElement('custom-media-card');
-  card.setAttribute('title', item.title);
-  card.setAttribute('type', item.type);
-  card.setAttribute('year', item.year);
-  card.setAttribute('image', item.image);
-  recentGrid.appendChild(card);
-});
+if(recentGrid) {
+  mediaData.forEach(item => {
+    const card = document.createElement('custom-media-card');
+    card.setAttribute('title', item.title);
+    card.setAttribute('type', item.type);
+    card.setAttribute('year', item.year);
+    card.setAttribute('image', item.image);
+    recentGrid.appendChild(card);
+  });
+}
 
 // Search/filter
 const searchInput = document.getElementById("searchInput");
 const filterType = document.getElementById("filterType");
 
-searchInput.addEventListener("input", filterMedia);
-filterType.addEventListener("change", filterMedia);
+if(searchInput && filterType && recentGrid) {
+  searchInput.addEventListener("input", filterMedia);
+  filterType.addEventListener("change", filterMedia);
 
-function filterMedia() {
-  const query = searchInput.value.toLowerCase();
-  const type = filterType.value;
-  recentGrid.querySelectorAll("custom-media-card").forEach(card => {
-    const title = card.getAttribute("title").toLowerCase();
-    const cardType = card.getAttribute("type");
-    card.style.display = (title.includes(query) && (type === "all" || cardType === type)) ? "block" : "none";
-  });
+  function filterMedia() {
+    const query = searchInput.value.toLowerCase();
+    const type = filterType.value;
+    recentGrid.querySelectorAll("custom-media-card").forEach(card => {
+      const title = card.getAttribute("title").toLowerCase();
+      const cardType = card.getAttribute("type");
+      card.style.display = (title.includes(query) && (type === "all" || cardType === type)) ? "block" : "none";
+    });
+  }
 }
