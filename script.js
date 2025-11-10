@@ -1,7 +1,11 @@
 // ----------------------
 // Profile Handling
 // ----------------------
-const profileName = localStorage.getItem('starstreamActiveProfile');
+let profilesRaw = localStorage.getItem('starstreamProfiles');
+let profiles = Array.isArray(JSON.parse(profilesRaw)) ? JSON.parse(profilesRaw) : [];
+
+let profileName = localStorage.getItem('starstreamActiveProfile');
+
 const welcomeEl = document.getElementById('welcomeMsg');
 
 if (!profileName) {
@@ -15,6 +19,134 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
     localStorage.removeItem('starstreamActiveProfile');
     window.location.href = 'profile.html';
 });
+
+// ----------------------
+// Header Profile Dropdown
+// ----------------------
+const navEl = document.querySelector('nav');
+
+const profileDropdown = document.createElement('div');
+profileDropdown.style.position = 'relative';
+profileDropdown.innerHTML = `
+  <button id="profileBtn" class="ml-4 text-gray-300 hover:text-white text-sm sm:text-base">Profile ▼</button>
+  <div id="profileMenu" style="display:none; position:absolute; right:0; top:100%; background:#1f2937; border-radius:0.5rem; padding:0.5rem; min-width:150px; box-shadow:0 4px 15px rgba(0,0,0,0.5); z-index:100;">
+  </div>
+`;
+
+navEl.appendChild(profileDropdown);
+
+const profileBtn = document.getElementById('profileBtn');
+const profileMenu = document.getElementById('profileMenu');
+
+function renderProfileMenu() {
+    profileMenu.innerHTML = '';
+    profiles.forEach(p => {
+        const btn = document.createElement('button');
+        btn.textContent = p;
+        btn.style.display = 'block';
+        btn.style.width = '100%';
+        btn.style.padding = '0.25rem 0.5rem';
+        btn.style.background = 'transparent';
+        btn.style.border = 'none';
+        btn.style.color = '#fff';
+        btn.style.textAlign = 'left';
+        btn.style.cursor = 'pointer';
+        btn.addEventListener('click', () => {
+            localStorage.setItem('starstreamActiveProfile', p);
+            location.reload();
+        });
+        profileMenu.appendChild(btn);
+    });
+
+    // Settings option
+    const settingsBtn = document.createElement('button');
+    settingsBtn.textContent = 'Settings';
+    settingsBtn.style.display = 'block';
+    settingsBtn.style.width = '100%';
+    settingsBtn.style.padding = '0.25rem 0.5rem';
+    settingsBtn.style.background = 'transparent';
+    settingsBtn.style.border = 'none';
+    settingsBtn.style.color = '#fff';
+    settingsBtn.style.textAlign = 'left';
+    settingsBtn.style.cursor = 'pointer';
+    settingsBtn.addEventListener('click', () => openSettingsMenu());
+    profileMenu.appendChild(settingsBtn);
+}
+
+profileBtn.addEventListener('click', () => {
+    profileMenu.style.display = profileMenu.style.display === 'none' ? 'block' : 'none';
+});
+
+document.addEventListener('click', (e) => {
+    if (!profileDropdown.contains(e.target)) {
+        profileMenu.style.display = 'none';
+    }
+});
+
+renderProfileMenu();
+
+// ----------------------
+// Settings Menu
+// ----------------------
+function openSettingsMenu() {
+    const settingsOverlay = document.createElement('div');
+    settingsOverlay.style.position = 'fixed';
+    settingsOverlay.style.top = 0;
+    settingsOverlay.style.left = 0;
+    settingsOverlay.style.width = '100%';
+    settingsOverlay.style.height = '100%';
+    settingsOverlay.style.background = 'rgba(0,0,0,0.7)';
+    settingsOverlay.style.display = 'flex';
+    settingsOverlay.style.alignItems = 'center';
+    settingsOverlay.style.justifyContent = 'center';
+    settingsOverlay.style.zIndex = 200;
+
+    const settingsCard = document.createElement('div');
+    settingsCard.style.background = '#111827';
+    settingsCard.style.padding = '2rem';
+    settingsCard.style.borderRadius = '1rem';
+    settingsCard.style.color = '#fff';
+    settingsCard.style.minWidth = '300px';
+    settingsCard.style.maxWidth = '90%';
+    settingsCard.innerHTML = `
+      <h2 class="text-xl font-bold mb-4">Settings</h2>
+      <div style="display:flex; flex-direction:column; gap:0.75rem;">
+        <button id="changeNameBtn">Change Profile Name</button>
+        <button id="deleteProfileBtn">Delete This Profile</button>
+        <button id="closeSettingsBtn">Close</button>
+      </div>
+    `;
+
+    settingsOverlay.appendChild(settingsCard);
+    document.body.appendChild(settingsOverlay);
+
+    // Button actions
+    document.getElementById('changeNameBtn').addEventListener('click', () => {
+        const newName = prompt("Enter new profile name:", profileName);
+        if (newName && !profiles.includes(newName)) {
+            const idx = profiles.indexOf(profileName);
+            profiles[idx] = newName;
+            localStorage.setItem('starstreamProfiles', JSON.stringify(profiles));
+            localStorage.setItem('starstreamActiveProfile', newName);
+            location.reload();
+        }
+    });
+
+    document.getElementById('deleteProfileBtn').addEventListener('click', () => {
+        if (confirm(`Are you sure you want to delete profile "${profileName}"?`)) {
+            profiles = profiles.filter(p => p !== profileName);
+            localStorage.setItem('starstreamProfiles', JSON.stringify(profiles));
+            localStorage.removeItem(`starstreamWatchlist_${profileName}`);
+            localStorage.removeItem(`starstreamRecentlyWatched_${profileName}`);
+            localStorage.removeItem('starstreamActiveProfile');
+            window.location.href = 'profile.html';
+        }
+    });
+
+    document.getElementById('closeSettingsBtn').addEventListener('click', () => {
+        document.body.removeChild(settingsOverlay);
+    });
+}
 
 // ----------------------
 // Profile-specific storage keys
