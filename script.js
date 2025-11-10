@@ -5,8 +5,7 @@ const profileName = localStorage.getItem('starstreamActiveProfile');
 const welcomeEl = document.getElementById('welcomeMsg');
 
 if (!profileName) {
-    // Redirect to profile selection page if no profile
-    window.location.href = 'profile.html';
+    window.location.href = 'profile.html'; // redirect if no profile
 } else {
     welcomeEl.innerHTML = `Welcome, <span class="text-indigo-400">${profileName}</span>`;
 }
@@ -16,6 +15,19 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
     localStorage.removeItem('starstreamActiveProfile');
     window.location.href = 'profile.html';
 });
+
+// ----------------------
+// Profile-specific storage keys
+// ----------------------
+const watchlistKey = `starstreamWatchlist_${profileName}`;
+const recentlyWatchedKey = `starstreamRecentlyWatched_${profileName}`;
+
+// Load profile data
+const watchlistRaw = JSON.parse(localStorage.getItem(watchlistKey)) || [];
+const watchlist = Array.isArray(watchlistRaw) ? watchlistRaw.filter(i => i && (i.title || i.name)) : [];
+
+const recentlyWatchedRaw = JSON.parse(localStorage.getItem(recentlyWatchedKey)) || [];
+const recentlyWatched = Array.isArray(recentlyWatchedRaw) ? recentlyWatchedRaw.filter(i => i && (i.title || i.name)) : [];
 
 // ----------------------
 // MediaCard Web Component
@@ -32,6 +44,10 @@ class MediaCard extends HTMLElement {
         container.style.transition = 'transform 0.2s';
         container.style.background = '#1f2937';
         container.style.boxShadow = '0 2px 10px rgba(0,0,0,0.5)';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.alignItems = 'center';
+        container.style.justifyContent = 'space-between';
         container.addEventListener('mouseenter', () => container.style.transform = 'scale(1.05)');
         container.addEventListener('mouseleave', () => container.style.transform = 'scale(1)');
 
@@ -43,9 +59,11 @@ class MediaCard extends HTMLElement {
         img.style.objectFit = 'cover';
         img.style.display = 'block';
 
-        const title = document.createElement('div');
         const titleText = this.getAttribute('title') || '';
         const yearText = this.getAttribute('year') || '';
+        const cardType = this.getAttribute('type') || 'all';
+
+        const title = document.createElement('div');
         if (titleText) {
             title.textContent = yearText ? `${titleText} (${yearText})` : titleText;
         }
@@ -54,8 +72,59 @@ class MediaCard extends HTMLElement {
         title.style.color = '#f3f4f6';
         title.style.textAlign = 'center';
 
+        // Action buttons container
+        const btnContainer = document.createElement('div');
+        btnContainer.style.display = 'flex';
+        btnContainer.style.gap = '6px';
+        btnContainer.style.padding = '6px';
+
+        // Add to Watchlist button
+        const addButton = document.createElement('button');
+        addButton.textContent = 'Add to Watchlist';
+        addButton.style.flex = '1';
+        addButton.style.fontSize = '0.7rem';
+        addButton.style.padding = '4px';
+        addButton.style.borderRadius = '6px';
+        addButton.style.background = '#6366f1';
+        addButton.style.color = '#fff';
+        addButton.style.cursor = 'pointer';
+        addButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const item = { title: titleText, type: cardType, year: yearText, image: img.src };
+            if (!watchlist.find(i => i.title === item.title)) {
+                watchlist.push(item);
+                localStorage.setItem(watchlistKey, JSON.stringify(watchlist));
+                renderSection('watchlist-grid', watchlist);
+            }
+        });
+
+        // Mark as Watched button
+        const watchedButton = document.createElement('button');
+        watchedButton.textContent = 'Mark as Watched';
+        watchedButton.style.flex = '1';
+        watchedButton.style.fontSize = '0.7rem';
+        watchedButton.style.padding = '4px';
+        watchedButton.style.borderRadius = '6px';
+        watchedButton.style.background = '#10b981';
+        watchedButton.style.color = '#fff';
+        watchedButton.style.cursor = 'pointer';
+        watchedButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const item = { title: titleText, type: cardType, year: yearText, image: img.src };
+            if (!recentlyWatched.find(i => i.title === item.title)) {
+                recentlyWatched.push(item);
+                localStorage.setItem(recentlyWatchedKey, JSON.stringify(recentlyWatched));
+                renderSection('recently-watched-grid', recentlyWatched);
+            }
+        });
+
+        btnContainer.appendChild(addButton);
+        btnContainer.appendChild(watchedButton);
+
         container.appendChild(img);
-        if (titleText) container.appendChild(title); // only add if there's a title
+        if (titleText) container.appendChild(title);
+        container.appendChild(btnContainer);
+
         shadow.appendChild(container);
     }
 }
@@ -73,29 +142,20 @@ const mediaData = [
 ];
 
 // ----------------------
-// LocalStorage Sections
-// ----------------------
-const watchlistRaw = JSON.parse(localStorage.getItem('starstreamWatchlist'));
-const watchlist = Array.isArray(watchlistRaw) ? watchlistRaw.filter(i => i && (i.title || i.name)) : [];
-
-const recentlyWatchedRaw = JSON.parse(localStorage.getItem('starstreamRecentlyWatched'));
-const recentlyWatched = Array.isArray(recentlyWatchedRaw) ? recentlyWatchedRaw.filter(i => i && (i.title || i.name)) : [];
-
-// ----------------------
 // Render Function
 // ----------------------
 function renderSection(gridId, items) {
     const grid = document.getElementById(gridId);
     if (!items || items.length === 0) {
         const section = grid.closest('section');
-        if (section) section.style.display = 'none'; // hide empty sections
+        if (section) section.style.display = 'none';
         return;
     }
     grid.innerHTML = '';
     items.forEach(item => {
         const itemTitle = item.title || item.name;
         const itemImage = item.image || 'https://via.placeholder.com/320x240?text=No+Image';
-        if (!itemTitle) return; // skip items with no title
+        if (!itemTitle) return;
 
         const card = document.createElement('custom-media-card');
         card.setAttribute('title', itemTitle);
